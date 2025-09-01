@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Transaction History
+{% endblock %}
+
+{% block main %}
+    <h1>Transaction History</h1>
+
+    <!-- Type Filter Form -->
+    <form method="get" action="/history" class="mb-3 d-flex gap-2 justify-content-center">
+        <!-- Retain sort & order in filter form -->
+        <input type="hidden" name="sort" value="{{ sort_by }}">
+        <input type="hidden" name="order" value="{{ order }}">
+
+        <select name="type" class="form-control w-auto" onchange="this.form.submit()">
+            <option value="all" {% if selected_type == "all" %}selected{% endif %}>Show All</option>
+            <option value="income" {% if selected_type == "income" %}selected{% endif %}>Only Income</option>
+            <option value="expense" {% if selected_type == "expense" %}selected{% endif %}>Only Expenses</option>
+        </select>
+    </form>
+
+    <!-- Sorting Dropdown -->
+    <div class="dropdown mb-3">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Sort Options
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+            <li><a class="dropdown-item" href="/history?sort=amount&order=ASC&type={{ selected_type }}">Amount ▲</a></li>
+            <li><a class="dropdown-item" href="/history?sort=amount&order=DESC&type={{ selected_type }}">Amount ▼</a></li>
+            <li><a class="dropdown-item" href="/history?sort=category&order=ASC&type={{ selected_type }}">Category ▲</a></li>
+            <li><a class="dropdown-item" href="/history?sort=category&order=DESC&type={{ selected_type }}">Category ▼</a></li>
+            <li><a class="dropdown-item" href="/history?sort=date&order=ASC&type={{ selected_type }}">Date ▲</a></li>
+            <li><a class="dropdown-item" href="/history?sort=date&order=DESC&type={{ selected_type }}">Date ▼</a></li>
+        </ul>
+    </div>
+
+    <!-- Transactions Table -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Amount</th>
+                <th>Category</th>
+                <th>Type</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for expense in expenses %}
+                <tr>
+                    <td>IDR {{ "{:,.2f}".format(expense.amount) }}</td>
+                    <td>{{ expense.category }}</td>
+                    <td>
+                        {% if expense.type == "income" %}
+                            <span class="text-success">Income</span>
+                        {% else %}
+                            <span class="text-danger">Expense</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ expense.date }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

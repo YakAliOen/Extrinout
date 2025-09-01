@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add Entry
+{% endblock %}
+
+{% block main %}
+    <form action="/add_entry" method="post">
+        <div class="mb-3">
+            <h1>Add Entry</h1>
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" class="form-control mx-auto w-auto" name="amount" placeholder="Amount (IDR)" type="number" step="0.01">
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" class="form-control mx-auto w-auto" name="category" placeholder="Category" type="text">
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" class="form-control mx-auto w-auto" name="date" placeholder="YYYY-MM-DD" type="date">
+        </div>
+        <div class="mb-3">
+            <select class="form-control mx-auto w-auto" name="type">
+                <option value="expense" selected>Expense</option>
+                <option value="income">Income</option>
+            </select>
+        </div>
+        <button class="btn btn-primary" type="submit">Add Entry</button>
+    </form>
+{% endblock %}

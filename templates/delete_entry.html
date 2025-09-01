@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Delete entries
+{% endblock %}
+
+{% block main %}
+    <h1>Delete entries</h1>
+
+    <!-- Filter Dropdown -->
+    <form action="/delete_entry" method="get" class="mb-3">
+        <select name="type" class="form-control mx-auto w-auto" onchange="this.form.submit()">
+            <option value="all" {% if selected_type == "all" %}selected{% endif %}>Show All</option>
+            <option value="expense" {% if selected_type == "expense" %}selected{% endif %}>Only Expenses</option>
+            <option value="income" {% if selected_type == "income" %}selected{% endif %}>Only Income</option>
+        </select>
+    </form>
+
+    <!-- Delete Form -->
+    <form action="/delete_entry" method="post">
+        <div class="mb-3">
+            <select class="form-control mx-auto w-auto" name="entry_id" required>
+                <option value="" disabled selected hidden>Select entries</option>
+                {% for entry in entries %}
+                    <option value="{{ entry.id }}">
+                        IDR {{ "{:,.2f}".format(entry.amount) }} ({{ entry.category }}, {{ entry.type }}, {{ entry.date }})
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <button class="btn btn-danger" type="submit">Delete</button>
+    </form>
+{% endblock %}
