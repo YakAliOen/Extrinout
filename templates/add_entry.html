@@ -5,16 +5,31 @@
 {% endblock %}
 
 {% block main %}
-    <form action="/add_entry" method="post">
+    <form action="/add_entry" method="post" id="add-entry-form">
         <div class="mb-3">
             <h1>Add Entry</h1>
         </div>
         <div class="mb-3">
             <input autocomplete="off" class="form-control mx-auto w-auto" name="amount" placeholder="Amount (IDR)" type="number" step="0.01">
         </div>
+
+        <!-- category: dynamic select with optional new-category input -->
         <div class="mb-3">
-            <input autocomplete="off" class="form-control mx-auto w-auto" name="category" placeholder="Category" type="text">
+            <label for="category_select" class="sr-only">Category</label>
+            <select id="category_select" class="form-control mx-auto w-auto" aria-label="Category select">
+                <option value="" disabled selected>Select category</option>
+                <option value="__new__">-- New category --</option>
+                {% for c in categories %}
+                    <option value="{{ c }}">{{ c }}</option>
+                {% endfor %}
+            </select>
+
+            <input type="text" id="new_category_input" class="form-control mx-auto w-auto mt-2" placeholder="Enter new category" style="display:none;">
+
+            <!-- Hidden field actually submitted as 'category' -->
+            <input type="hidden" name="category" id="category_hidden">
         </div>
+
         <div class="mb-3">
             <input autocomplete="off" class="form-control mx-auto w-auto" name="date" placeholder="YYYY-MM-DD" type="date">
         </div>
@@ -26,4 +41,44 @@
         </div>
         <button class="btn btn-primary" type="submit">Add Entry</button>
     </form>
+
+    <script>
+    (function() {
+        const select = document.getElementById('category_select');
+        const newInput = document.getElementById('new_category_input');
+        const hidden = document.getElementById('category_hidden');
+        const form = document.getElementById('add-entry-form');
+
+        function updateHidden() {
+            if (!select) return;
+            if (select.value === '__new__') {
+                newInput.style.display = 'block';
+                hidden.value = newInput.value || '';
+                newInput.focus();
+            } else {
+                newInput.style.display = 'none';
+                hidden.value = select.value || '';
+            }
+        }
+
+        select.addEventListener('change', updateHidden);
+        newInput.addEventListener('input', function() {
+            hidden.value = newInput.value;
+        });
+
+        form.addEventListener('submit', function(e) {
+            updateHidden();
+            if (!hidden.value || hidden.value.trim() === '') {
+                e.preventDefault();
+                alert('Please select or enter a category.');
+            }
+        });
+
+        // If no existing categories, default to new category visible
+        if (select.options.length <= 1) {
+            select.value = '__new__';
+            updateHidden();
+        }
+    })();
+    </script>
 {% endblock %}
