@@ -66,13 +66,21 @@ def index():
         expense=total_expense,
         balance=balance
     )
+    #1st suggestion: when add transfer/withdrawal from a certain category, the category list should be dynamic based on previous entries
 
 
+#SUGGESTION: another div/section in index to show live updates of categories.
 @app.route("/add_entry", methods=["GET", "POST"])
 @login_required
 def add_entry():
     if request.method == "GET":
-        return render_template("add_entry.html")
+        # Fetch distinct categories previously used by this user
+        rows = db.execute(
+            "SELECT DISTINCT category FROM expenses WHERE user_id = ? ORDER BY category COLLATE NOCASE",
+            session["user_id"]
+        )
+        categories = [r["category"] for r in rows] if rows else []
+        return render_template("add_entry.html", categories=categories)
     else:
         amount = request.form.get("amount")
         category = request.form.get("category")
