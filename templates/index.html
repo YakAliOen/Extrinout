@@ -13,6 +13,32 @@
         <p>✅ Income: IDR {{ "{:,.2f}".format(income) }} &nbsp;&nbsp;&nbsp; ❌ Expenses: IDR {{ "{:,.2f}".format(expense) }}</p>
     </div>
 
+    <div class="mb-5">
+        <h3 class="">Breakdown</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Income</th>
+                    <th>Expense</th>
+                    <th>Net</th>
+                    <th>Last Updated</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in nominal_breakdown %}
+                    <tr>
+                        <td>{{ item.category }}</td>
+                        <td class="text-success">IDR {{ "{:,.2f}".format(item.income_total) }}</td>
+                        <td class="text-danger">IDR {{ "{:,.2f}".format(item.expense_total) }}</td>
+                        <td>IDR {{ "{:,.2f}".format(item.net_total) }}</td>
+                        <td>{{ item.last_date }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
     <!-- Income Breakdown Table -->
     <div class="mb-5">
         <h3 class="text-success">Income</h3>
