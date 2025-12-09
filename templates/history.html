@@ -39,8 +39,8 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Amount</th>
                 <th>Category</th>
+                <th>Amount</th>
                 <th>Type</th>
                 <th>Date</th>
             </tr>
@@ -48,8 +48,8 @@
         <tbody>
             {% for expense in expenses %}
                 <tr>
-                    <td>IDR {{ "{:,.2f}".format(expense.amount) }}</td>
                     <td>{{ expense.category }}</td>
+                    <td>IDR {{ "{:,.2f}".format(expense.amount) }}</td>
                     <td>
                         {% if expense.type == "income" %}
                             <span class="text-success">Income</span>
