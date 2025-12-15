@@ -56,4 +56,4 @@ Make sure your virtual environment is activated and dependencies are installed b
 
 ## Conclusion
 
-ExTrInOut goes beyond traditional expense trackers by prioritizing financial context through accounts. This design choice keeps finances organized, transparent, and adaptable to a wide range of real-world use cases—without unnecessary complexity.
+ExTrInOut goes beyond traditional expense trackers by prioritizing financial context through accounts. This design choice keeps finances organized, transparent, and adaptable to a wide range of real-world use cases; without unnecessary complexity.
