@@ -211,36 +211,46 @@ def register():
 @app.route("/delete_entry", methods=["GET", "POST"])
 @login_required
 def delete_entry():
-    if request.method == "GET":
-        filter_type = request.args.get("type", "all")
-
-        if filter_type in ["income", "expense"]:
-            entries = db.execute(
-                "SELECT id, amount, category, type, date FROM expenses WHERE user_id = ? AND type = ?",
-                session["user_id"], filter_type
-            )
-        else:
-            entries = db.execute(
-                "SELECT id, amount, category, type, date FROM expenses WHERE user_id = ?",
-                session["user_id"]
-            )
-
-        return render_template("delete_entry.html", entries=entries, selected_type=filter_type)
-
-    else:
+    if request.method == "POST":
         entry_id = request.form.get("entry_id")
 
         if not entry_id:
             return apology("Please select an entry to delete", 400)
 
-        expense = db.execute(
-            "SELECT * FROM expenses WHERE id = ? AND user_id = ?", entry_id, session["user_id"]
+        entry = db.execute(
+            "SELECT id FROM expenses WHERE id = ? AND user_id = ?",
+            entry_id, session["user_id"]
         )
 
-        if not expense:
+        if not entry:
             return apology("Entry not found", 400)
 
         db.execute("DELETE FROM expenses WHERE id = ?", entry_id)
-
         flash("Entry deleted.")
         return redirect("/delete_entry")
+
+    expenses = db.execute(
+        """
+        SELECT id, amount, category, date
+        FROM expenses
+        WHERE user_id = ? AND type = 'expense'
+        ORDER BY date DESC
+        """,
+        session["user_id"]
+    )
+
+    incomes = db.execute(
+        """
+        SELECT id, amount, category, date
+        FROM expenses
+        WHERE user_id = ? AND type = 'income'
+        ORDER BY date DESC
+        """,
+        session["user_id"]
+    )
+
+    return render_template(
+        "delete_entry.html",
+        expenses=expenses,
+        incomes=incomes
+    )
