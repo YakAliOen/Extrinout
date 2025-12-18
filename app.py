@@ -56,10 +56,28 @@ def index():
 
     balance = total_income - total_expense
 
+    nominal_breakdown = db.execute("""
+        SELECT
+            category,
+            SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) AS income_total,
+            SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) AS expense_total,
+            SUM(CASE
+                WHEN type = 'income' THEN amount
+                WHEN type = 'expense' THEN -amount
+                ELSE 0
+            END) AS net_total,
+            MAX(date) AS last_date
+        FROM expenses
+        WHERE user_id = ?
+        GROUP BY category
+        ORDER BY last_date DESC
+    """, session["user_id"])
+
     return render_template(
         "index.html",
         income_breakdown=income_breakdown,
         expense_breakdown=expense_breakdown,
+        nominal_breakdown=nominal_breakdown,
         income=total_income,
         expense=total_expense,
         balance=balance
