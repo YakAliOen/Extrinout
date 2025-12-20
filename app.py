@@ -90,7 +90,7 @@ def index():
 @login_required
 def add_entry():
     if request.method == "GET":
-        # Fetch distinct categories previously used by this user
+        #fetch distinct categories previously used by this user
         rows = db.execute(
             "SELECT DISTINCT category FROM expenses WHERE user_id = ? ORDER BY category COLLATE NOCASE",
             session["user_id"]
@@ -120,7 +120,6 @@ def add_entry():
                    session["user_id"], amount, category, type_, date)
 
         flash(f"{type_.capitalize()} entry added successfully.")
-        return redirect("/")
 
 
 @app.route("/history", methods=["GET"])
