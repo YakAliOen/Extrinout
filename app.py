@@ -1,5 +1,4 @@
-#extrinout 1.1
-
+#libraries
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
@@ -7,21 +6,28 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from helpers import apology, login_required, idr
 
-# Configure application
+
+
+
+
+#configurations
 app = Flask(__name__)
 
-# Custom filter
 app.jinja_env.filters["idr"] = idr
 
-# Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+
 Session(app)
 
-# Configure CS50 Library to use SQLite database
+
 db = SQL("sqlite:///extrinout.db")
 
 
+
+
+
+#CS50x
 @app.after_request
 def after_request(response):
     """Ensure responses aren't cached"""
@@ -31,21 +37,23 @@ def after_request(response):
     return response
 
 
+
+
+
+#portfolio
 @app.route("/")
 @login_required
 def index():
-    # Get breakdown by category and type
+    #fetch breakdown of expenses and incomes by category
     expense_breakdown = db.execute(
-        "SELECT category, SUM(amount) AS total_amount, MAX(date) AS last_date FROM expenses WHERE user_id = ? AND type = 'expense' GROUP BY category ORDER BY last_date DESC",
-        session["user_id"]
+        "SELECT category, SUM(amount) AS total_amount, MAX(date) AS last_date FROM expenses WHERE user_id = ? AND type = 'expense' GROUP BY category ORDER BY last_date DESC", session["user_id"]
     )
 
     income_breakdown = db.execute(
-        "SELECT category, SUM(amount) AS total_amount, MAX(date) AS last_date FROM expenses WHERE user_id = ? AND type = 'income' GROUP BY category ORDER BY last_date DESC",
-        session["user_id"]
+        "SELECT category, SUM(amount) AS total_amount, MAX(date) AS last_date FROM expenses WHERE user_id = ? AND type = 'income' GROUP BY category ORDER BY last_date DESC", session["user_id"]
     )
 
-    # Calculate total income, expenses, and balance
+    #calculate total income, total expense, and balance
     total_income = db.execute(
         "SELECT IFNULL(SUM(amount), 0) AS income FROM expenses WHERE user_id = ? AND type = 'income'", session["user_id"]
     )[0]["income"]
@@ -56,6 +64,7 @@ def index():
 
     balance = total_income - total_expense
 
+    #fetch nominal breakdown; balance by category
     nominal_breakdown = db.execute("""
         SELECT
             category,
@@ -82,27 +91,34 @@ def index():
         expense=total_expense,
         balance=balance
     )
-    #1st suggestion: when add transfer/withdrawal from a certain category, the category list should be dynamic based on previous entries
 
 
-#SUGGESTION: another div/section in index to show live updates of categories.
+
+
+
+#add entry
 @app.route("/add_entry", methods=["GET", "POST"])
 @login_required
 def add_entry():
+    #handles GET
     if request.method == "GET":
-        #fetch distinct categories previously used by this user
+        #fetch distinct categories for dropdown
         rows = db.execute(
             "SELECT DISTINCT category FROM expenses WHERE user_id = ? ORDER BY category COLLATE NOCASE",
             session["user_id"]
         )
+
+        #extract categories from rows because CS50's SQL skill issue
         categories = [r["category"] for r in rows] if rows else []
         return render_template("add_entry.html", categories=categories)
+    #handles POST
     else:
         amount = request.form.get("amount")
         category = request.form.get("category")
         type_ = request.form.get("type")
         date = request.form.get("date")
 
+        #validate inputs
         if not amount or not category or not date or not type_:
             return apology("All fields must be filled", 400)
 
@@ -116,12 +132,19 @@ def add_entry():
         except ValueError:
             return apology("Invalid amount format", 400)
 
+        #insert entry into database
         db.execute("INSERT INTO expenses (user_id, amount, category, type, date) VALUES (?, ?, ?, ?, ?)",
                    session["user_id"], amount, category, type_, date)
 
         flash(f"{type_.capitalize()} entry added successfully.")
 
+        return redirect("/add_entry")
 
+
+
+
+
+#history
 @app.route("/history", methods=["GET"])
 @login_required
 def history():
