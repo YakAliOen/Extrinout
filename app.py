@@ -152,6 +152,7 @@ def history():
     order = request.args.get("order", "DESC")
     filter_type = request.args.get("type", "all")
 
+    #validate inputs
     valid_sort_columns = ["category", "date", "amount"]
     if sort_by not in valid_sort_columns:
         sort_by = "date"
@@ -170,8 +171,13 @@ def history():
         """, session["user_id"])
 
     return render_template("history.html", expenses=expenses, sort_by=sort_by, order=order, selected_type=filter_type)
+#SOON TO BE UPDATED
 
 
+
+
+
+#login from CS50x
 @app.route("/login", methods=["GET", "POST"])
 def login():
     session.clear()
@@ -199,6 +205,10 @@ def login():
     return render_template("login.html")
 
 
+
+
+
+#logout from CS50x
 @app.route("/logout")
 def logout():
     session.clear()
@@ -206,6 +216,10 @@ def logout():
     return redirect("/")
 
 
+
+
+
+#register from CS50x
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
@@ -230,12 +244,18 @@ def register():
                 return apology("username already exists", 400)
 
 
+
+
+
+#delete entry
 @app.route("/delete_entry", methods=["GET", "POST"])
 @login_required
 def delete_entry():
+    #handles POST
     if request.method == "POST":
         entry_id = request.form.get("entry_id")
 
+        #validate input
         if not entry_id:
             return apology("Please select an entry to delete", 400)
 
@@ -247,32 +267,35 @@ def delete_entry():
         if not entry:
             return apology("Entry not found", 400)
 
+        #successfully delete entry
         db.execute("DELETE FROM expenses WHERE id = ?", entry_id)
         flash("Entry deleted.")
         return redirect("/delete_entry")
+    
+    #handles GET
+    else:
+        expenses = db.execute(
+            """
+            SELECT id, amount, category, date
+            FROM expenses
+            WHERE user_id = ? AND type = 'expense'
+            ORDER BY date DESC
+            """,
+            session["user_id"]
+        )
 
-    expenses = db.execute(
-        """
-        SELECT id, amount, category, date
-        FROM expenses
-        WHERE user_id = ? AND type = 'expense'
-        ORDER BY date DESC
-        """,
-        session["user_id"]
-    )
+        incomes = db.execute(
+            """
+            SELECT id, amount, category, date
+            FROM expenses
+            WHERE user_id = ? AND type = 'income'
+            ORDER BY date DESC
+            """,
+            session["user_id"]
+        )
 
-    incomes = db.execute(
-        """
-        SELECT id, amount, category, date
-        FROM expenses
-        WHERE user_id = ? AND type = 'income'
-        ORDER BY date DESC
-        """,
-        session["user_id"]
-    )
-
-    return render_template(
-        "delete_entry.html",
-        expenses=expenses,
-        incomes=incomes
-    )
+        return render_template(
+            "delete_entry.html",
+            expenses=expenses,
+            incomes=incomes
+        )
