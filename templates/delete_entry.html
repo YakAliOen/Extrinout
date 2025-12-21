@@ -1,59 +1,67 @@
 {% extends "layout.html" %}
 
 {% block title %}
-Delete Entries
+    Delete Entries
 {% endblock %}
 
 {% block main %}
-<h1 class="mb-4">Delete Entries</h1>
+    <h1 class="mb-4">Delete Entries</h1>
 
-<div class="row">
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="text-danger">Expenses</h3>
 
-    <div class="col-md-6">
-        <h3 class="text-danger">Expenses</h3>
-        <form method="post">
-            <ul class="list-group">
-                {% for e in expenses %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div>
-                        <strong>{{ e.category }}</strong><br>
-                        <small>{{ e.date }}</small>
-                    </div>
-                    <div class="text-end">
-                        <span>IDR {{ "{:,.2f}".format(e.amount) }}</span><br>
-                        <button name="entry_id" value="{{ e.id }}"
-                                class="btn btn-sm btn-outline-danger mt-1">
-                            Delete
-                        </button>
-                    </div>
-                </li>
-                {% endfor %}
-            </ul>
-        </form>
+            <form method="post">
+                <ul class="list-group">
+                    {% for e in expenses %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ e.category }}</strong><br>
+                                <small>{{ e.date }}</small>
+                            </div>
+
+                            <div class="text-end">
+                                <span>IDR {{ "{:,.2f}".format(e.amount) }}</span><br>
+                                <button
+                                    name="entry_id"
+                                    value="{{ e.id }}"
+                                    class="btn btn-sm btn-outline-danger mt-1"
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </form>
+        </div>
+
+        <div class="col-md-6">
+            <h3 class="text-success">Income</h3>
+
+            <form method="post">
+                <ul class="list-group">
+                    {% for i in incomes %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ i.category }}</strong><br>
+                                <small>{{ i.date }}</small>
+                            </div>
+
+                            <div class="text-end">
+                                <span>IDR {{ "{:,.2f}".format(i.amount) }}</span><br>
+                                <button
+                                    name="entry_id"
+                                    value="{{ i.id }}"
+                                    class="btn btn-sm btn-outline-danger mt-1"
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </form>
+        </div>
     </div>
-
-    <div class="col-md-6">
-        <h3 class="text-success">Income</h3>
-        <form method="post">
-            <ul class="list-group">
-                {% for i in incomes %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div>
-                        <strong>{{ i.category }}</strong><br>
-                        <small>{{ i.date }}</small>
-                    </div>
-                    <div class="text-end">
-                        <span>IDR {{ "{:,.2f}".format(i.amount) }}</span><br>
-                        <button name="entry_id" value="{{ i.id }}"
-                                class="btn btn-sm btn-outline-danger mt-1">
-                            Delete
-                        </button>
-                    </div>
-                </li>
-                {% endfor %}
-            </ul>
-        </form>
-    </div>
-
-</div>
 {% endblock %}
