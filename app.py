@@ -1,25 +1,17 @@
-# libraries
+#CS50x
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
-from collections import defaultdict
-
 from helpers import apology, login_required, idr
 
-
-# configurations
 app = Flask(__name__)
 app.jinja_env.filters["idr"] = idr
-
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
-
 db = SQL("sqlite:///extrinout.db")
 
-
-# CS50x
 @app.after_request
 def after_request(response):
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
@@ -28,7 +20,10 @@ def after_request(response):
     return response
 
 
-# portfolio
+
+
+
+#portfolio
 @app.route("/")
 @login_required
 def index():
@@ -82,7 +77,10 @@ def index():
     )
 
 
-# add entry
+
+
+
+#add entry
 @app.route("/add_entry", methods=["GET", "POST"])
 @login_required
 def add_entry():
@@ -121,7 +119,11 @@ def add_entry():
     return redirect("/add_entry")
 
 
-# ✅ FIXED HISTORY (ONLY CHANGE)
+
+
+
+#history
+from collections import defaultdict
 @app.route("/history", methods=["GET"])
 @login_required
 def history():
@@ -161,57 +163,46 @@ def history():
     )
 
 
-# login
+
+
+
+#CS50x
 @app.route("/login", methods=["GET", "POST"])
 def login():
     session.clear()
-
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
-
         if not username or not password:
             return apology("must provide username/password", 403)
-
         rows = db.execute("SELECT * FROM users WHERE username = ?", username)
-
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], password):
             return apology("invalid username and/or password", 403)
-
         session["user_id"] = rows[0]["id"]
         session["username"] = rows[0]["username"]
-
         flash(f"Welcome back, {session['username']}!")
         return redirect("/")
-
     return render_template("login.html")
 
-
-# logout
 @app.route("/logout")
 def logout():
     session.clear()
     flash("You have been logged out.")
     return redirect("/")
 
-
-# register
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
         return render_template("register.html")
-
     username = request.form.get("username")
     password = request.form.get("password")
     confirmation = request.form.get("confirmation")
-
     if not username or not password or not confirmation:
         return apology("user's input is blank", 400)
     elif len(password) < 8:
         return apology("password of 8 characters", 400)
     elif password != confirmation:
         return apology("passwords do not match", 400)
-
     try:
         hash_ = generate_password_hash(password)
         db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", username, hash_)
@@ -221,7 +212,10 @@ def register():
         return apology("username already exists", 400)
 
 
-# delete entry (UNCHANGED)
+
+
+
+#delete entry
 @app.route("/delete_entry", methods=["GET", "POST"])
 @login_required
 def delete_entry():
