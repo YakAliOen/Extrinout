@@ -70,8 +70,6 @@ def add_entry():
 
 
 # history
-
-
 @app.route("/history", methods=["GET"])
 @login_required
 def history():
