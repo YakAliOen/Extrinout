@@ -5,103 +5,134 @@
 {% endblock %}
 
 {% block main %}
-    <h1>Financial Overview</h1>
+    <div class="space-y-10">
 
-    <div class="mb-4">
-        <h3>
-            💰 Balance: IDR {{ "{:,.2f}".format(balance) }}
-        </h3>
+        <!-- overview -->
+        <div class="bg-white rounded-2xl shadow p-6">
+            <h1 class="text-2xl font-semibold mb-6">Financial Overview</h1>
 
-        <p>
-            ✅ Income: IDR {{ "{:,.2f}".format(income) }}
-            &nbsp;&nbsp;&nbsp;
-            ❌ Expenses: IDR {{ "{:,.2f}".format(expense) }}
-        </p>
-    </div>
-
-    <div class="mb-5">
-        <h3>Breakdown</h3>
-
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Category</th>
-                    <th>Income</th>
-                    <th>Expense</th>
-                    <th>Net</th>
-                    <th>Last Updated</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for item in nominal_breakdown %}
-                    <tr>
-                        <td>{{ item.category }}</td>
-                        <td class="text-success">
-                            IDR {{ "{:,.2f}".format(item.income_total) }}
-                        </td>
-                        <td class="text-danger">
-                            IDR {{ "{:,.2f}".format(item.expense_total) }}
-                        </td>
-                        <td>
-                            IDR {{ "{:,.2f}".format(item.net_total) }}
-                        </td>
-                        <td>{{ item.last_date }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-    <div class="mb-5">
-        <h3 class="text-success">Income</h3>
-
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Category</th>
-                    <th>Total Received</th>
-                    <th>Last Updated</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for income in income_breakdown %}
-                    <tr>
-                        <td>{{ income.category }}</td>
-                        <td>
-                            IDR {{ "{:,.2f}".format(income.total_amount) }}
-                        </td>
-                        <td>{{ income.last_date }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-    <div class="mb-5">
-        <h3 class="text-danger">Expenses</h3>
-
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Category</th>
-                    <th>Total Spent</th>
-                    <th>Last Updated</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for expense in expense_breakdown %}
-                    <tr>
-                        <td>{{ expense.category }}</td>
-                        <td>
-                            IDR {{ "{:,.2f}".format(expense.total_amount) }}
-                        </td>
-                        <td>{{ expense.last_date }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+                <!-- left side -->
+                <div>
+                    <p class="text-sm text-gray-500">Current Balance</p>
+                    <p class="text-3xl font-bold text-gray-800">
+                        IDR {{ "{:,.2f}".format(balance) }}
+                    </p>
+                </div>
+                <!-- right side -->
+                <div class="flex gap-6 text-sm">
+                    <div class="text-green-600">
+                        <p class="font-medium">Income</p>
+                        <p class="font-semibold">
+                            IDR {{ "{:,.2f}".format(income) }}
+                        </p>
+                    </div>
+                    <div class="text-red-600">
+                        <p class="font-medium">Expenses</p>
+                        <p class="font-semibold">
+                            IDR {{ "{:,.2f}".format(expense) }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- breakdown -->
+        <div>
+            <h3 class="text-lg font-semibold mb-3">Breakdown</h3>
+            <div class="overflow-x-auto bg-white rounded-2xl shadow">
+                <table class="w-full text-sm">
+                    <thead class="bg-gray-100 text-gray-700">
+                        <tr>
+                            <th class="px-4 py-3 text-left">Category</th>
+                            <th class="px-4 py-3 text-right">Income</th>
+                            <th class="px-4 py-3 text-right">Expense</th>
+                            <th class="px-4 py-3 text-right">Net</th>
+                            <th class="px-4 py-3 text-left">Last Updated</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y">
+                        {% for item in nominal_breakdown %}
+                            <tr class="hover:bg-gray-50/50">
+                                <td class="px-4 py-3 font-medium">
+                                    {{ item.category }}
+                                </td>
+                                <td class="px-4 py-3 text-right text-green-600">
+                                    IDR {{ "{:,.2f}".format(item.income_total) }}
+                                </td>
+                                <td class="px-4 py-3 text-right text-red-600">
+                                    IDR {{ "{:,.2f}".format(item.expense_total) }}
+                                </td>
+                                <td class="px-4 py-3 text-right font-semibold">
+                                    IDR {{ "{:,.2f}".format(item.net_total) }}
+                                </td>
+                                <td class="px-4 py-3 text-gray-500">
+                                    {{ item.last_date }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- income -->
+        <div>
+            <h3 class="text-lg font-semibold text-green-600 mb-3">Income</h3>
+            <div class="overflow-x-auto bg-white rounded-2xl shadow">
+                <table class="w-full text-sm">
+                    <thead class="bg-green-100 text-green-700">
+                        <tr>
+                            <th class="px-4 py-3 text-left">Category</th>
+                            <th class="px-4 py-3 text-right">Total Received</th>
+                            <th class="px-4 py-3 text-left">Last Updated</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y">
+                        {% for income in income_breakdown %}
+                            <tr class="hover:bg-green-50/40">
+                                <td class="px-4 py-3 font-medium">
+                                    {{ income.category }}
+                                </td>
+                                <td class="px-4 py-3 text-right">
+                                    IDR {{ "{:,.2f}".format(income.total_amount) }}
+                                </td>
+                                <td class="px-4 py-3 text-gray-500">
+                                    {{ income.last_date }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- expenses -->
+        <div>
+            <h3 class="text-lg font-semibold text-red-600 mb-3">Expenses</h3>
+            <div class="overflow-x-auto bg-white rounded-2xl shadow">
+                <table class="w-full text-sm">
+                    <thead class="bg-red-100 text-red-700">
+                        <tr>
+                            <th class="px-4 py-3 text-left">Category</th>
+                            <th class="px-4 py-3 text-right">Total Spent</th>
+                            <th class="px-4 py-3 text-left">Last Updated</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y">
+                        {% for expense in expense_breakdown %}
+                            <tr class="hover:bg-red-50/40">
+                                <td class="px-4 py-3 font-medium">
+                                    {{ expense.category }}
+                                </td>
+                                <td class="px-4 py-3 text-right">
+                                    IDR {{ "{:,.2f}".format(expense.total_amount) }}
+                                </td>
+                                <td class="px-4 py-3 text-gray-500">
+                                    {{ expense.last_date }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 {% endblock %}

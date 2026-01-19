@@ -5,74 +5,54 @@
 {% endblock %}
 
 {% block main %}
-    <form action="/add_entry" method="post" id="add-entry-form">
-        <div class="mb-3">
-            <h1>Add Entry</h1>
-        </div>
+    <div>
+        <form action="/add_entry" method="post" id="add-entry-form" class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 space-y-6">
+            <h1 class="text-2xl font-bold text-gray-800 mb-8 text-center">
+                Add Entry
+            </h1>
 
-        <div class="mb-3">
-            <input
-                autocomplete="off"
-                class="form-control mx-auto w-auto"
-                name="amount"
-                placeholder="Amount (IDR)"
-                type="number"
-                step="0.01"
-            >
-        </div>
+            <!-- value of the entry -->
+            <input autocomplete="off" name="amount" placeholder="Amount (IDR)" type="number" step="1000" class="w-full rounded-lg border border-gray-300 px-4 py-2 bg-white appearance-none">
 
-        <div class="mb-3">
-            <select
-                id="category_select"
-                class="form-control mx-auto w-auto"
-                aria-label="Category select"
-            >
-                <option value="" disabled selected>Select category</option>
-                <option value="__new__">-- New category --</option>
+            <!-- select category or add new category -->
+            <div>
+                <select id="category_select" class="w-full rounded-lg border border-gray-300 px-4 py-2 bg-white appearance-none" aria-label="Category select">
+                    <option value="" disabled selected>Select category</option>
+                    <option value="__new__">-- New category --</option>
 
-                {% for c in categories %}
-                    <option value="{{ c }}">{{ c }}</option>
-                {% endfor %}
-            </select>
+                    {% for c in categories %}
+                        <option value="{{ c }}">{{ c }}</option>
+                    {% endfor %}
+                </select>
 
-            <input
-                type="text"
-                id="new_category_input"
-                class="form-control mx-auto w-auto mt-2"
-                placeholder="Enter new category"
-                style="display: none;"
-            >
+                <input type="text" id="new_category_input" placeholder="Enter new category" class="mt-3 w-full rounded-lg border border-gray-300 px-4 py-2 bg-white" style="display: none;">
 
-            <input type="hidden" name="category" id="category_hidden">
-        </div>
+                <!-- placeholder for later -->
+                <input type="hidden" name="category" id="category_hidden">
+            </div>
 
-        <div class="mb-3">
-            <input
-                autocomplete="off"
-                class="form-control mx-auto w-auto"
-                name="date"
-                placeholder="YYYY-MM-DD"
-                type="date"
-            >
-        </div>
+            <!-- date of the entry -->
+            <input autocomplete="off" name="date" type="date" class="w-full rounded-lg border border-gray-300 px-4 py-2 bg-white">
 
-        <div class="mb-3">
-            <select class="form-control mx-auto w-auto" name="type">
-                <option value="expense" selected>Expense</option>
+            <!-- type of the entry (expense/income) -->
+            <select name="type" class="w-full rounded-lg border border-gray-300 px-4 py-2 bg-white appearance-none">
+                <option value="" disabled selected>Select type</option>
+                <option value="expense">Expense</option>
                 <option value="income">Income</option>
             </select>
-        </div>
 
-        <button class="btn btn-primary" type="submit">
-            Add Entry
-        </button>
-    </form>
+            <button type="submit" class="w-full bg-blue-400 text-white py-2.5 rounded-lg font-medium hover:bg-blue-500 transition">
+                Add Entry
+            </button>
+        </form>
+    </div>
 
+    <!-- script to handle category selection and new category input -->
     <script>
         (function () {
-            const select = document.getElementById("category_select");
+            const select = document.getElementById("category_select");      //value="" or "__new__" or existing category
             const newInput = document.getElementById("new_category_input");
-            const hidden = document.getElementById("category_hidden");
+            const hidden = document.getElementById("category_hidden");      //the placeholder earlier
             const form = document.getElementById("add-entry-form");
 
             function updateHidden() {
@@ -80,6 +60,7 @@
                     return;
                 }
 
+                // show/hide new category input based on selection
                 if (select.value === "__new__") {
                     newInput.style.display = "block";
                     hidden.value = newInput.value || "";

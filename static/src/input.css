@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@layer components {
+  .panel {
+    @apply bg-white rounded-xl shadow-sm p-6 mb-8;
+  }
+
+  .panel-title {
+    @apply text-lg font-semibold mb-4;
+  }
+
+  .simple-table th {
+    @apply text-left text-gray-500 font-medium pb-2;
+  }
+
+  .simple-table td {
+    @apply py-2 border-t;
+  }
+}

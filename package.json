@@ -1,0 +1,21 @@
+{
+  "name": "extrinout",
+  "version": "1.0.0",
+  "description": "**ExTrInOut (Extrinout)** is a simple yet versatile expense tracker built around one core idea: **accounts first, categories second**. Instead of blending all expenses into a single pool, ExTrInOut allows users to separate spending by context, making financial tracking clearer, more flexible, and more practical.",
+  "main": "index.js",
+
+  "scripts": {
+  "dev": "npx tailwindcss -i ./static/src/input.css -o ./static/dist/output.css --watch"
+},
+
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.18",
+    "autoprefixer": "^10.4.23",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.18"
+  }
+}
