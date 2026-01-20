@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 
 <head>
     <meta charset="utf-8">
@@ -11,9 +11,13 @@
     <title>ExTrInOut: {% block title %}{% endblock %}</title>
 </head>
 
-<body class="bg-white text-gray-800 min-h-screen flex flex-col">
-    <nav class="bg-gray-100 border-b-5 border-gray-200">
+<body class="bg-white text-gray-800 min-h-screen flex flex-col
+             dark:bg-gray-900 dark:text-gray-200">
+
+    <nav class="bg-gray-100 border-b-5 border-gray-200
+                dark:bg-gray-800 dark:border-gray-700">
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+
             <div class="flex items-center gap-6">
                 <a href="/" class="inline-flex items-center px-4 py-2 rounded-md text-3xl font-semibold tracking-widest">
                     <span class="text-blue-500">E x</span>
@@ -21,48 +25,77 @@
                     <span class="text-yellow-500">&nbsp;I n</span>
                     <span class="text-green-500">&nbsp;O u t</span>
                 </a>
+
                 {% if session["user_id"] %}
-                    <a href="/add_entry" class="inline-flex items-center px-4 py-2 rounded-md bg-blue-400 text-white font-medium text-sm hover:bg-blue-500 transition">
+                    <a href="/add_entry"
+                       class="inline-flex items-center px-4 py-2 rounded-md
+                              bg-orange-500 text-white font-medium text-sm
+                              hover:bg-orange-600 transition">
                         Add Entry
                     </a>
-                    <a href="/delete_entry" class="inline-flex items-center px-4 py-2 rounded-md bg-blue-400 text-white font-medium text-sm hover:bg-blue-500 transition">
+                    <a href="/delete_entry"
+                       class="inline-flex items-center px-4 py-2 rounded-md
+                              bg-orange-500 text-white font-medium text-sm
+                              hover:bg-orange-600 transition">
                         Delete Entry
                     </a>
-                    <a href="/history" class="inline-flex items-center px-4 py-2 rounded-md bg-blue-400 text-white font-medium text-sm hover:bg-blue-500 transition">
+                    <a href="/history"
+                       class="inline-flex items-center px-4 py-2 rounded-md
+                              bg-orange-500 text-white font-medium text-sm
+                              hover:bg-orange-600 transition">
                         History
                     </a>
                 {% endif %}
             </div>
+
             <div class="flex items-center gap-4 text-xs">
                 {% if session["user_id"] %}
-                    <span class="inline-flex items-center px-4 py-2 rounded-md text-gray-700 text-base">
-                        Hello,&nbsp;<strong> {{ session["username"] }}</strong>
+                    <span class="inline-flex items-center px-4 py-2 rounded-md
+                                 text-gray-700 text-base
+                                 dark:text-gray-300">
+                        Hello,&nbsp;<strong>{{ session["username"] }}</strong>
                     </span>
-                    <a href="/logout" class="inline-flex items-center px-4 py-2 rounded-md bg-red-400 text-white font-medium text-sm hover:bg-red-500 transition">
+                    <a href="/logout"
+                       class="inline-flex items-center px-4 py-2 rounded-md
+                              bg-red-500 text-white font-medium text-sm
+                              hover:bg-red-600 transition">
                         Log Out
                     </a>
                 {% else %}
-                    <a href="/register" class="inline-flex items-center px-4 py-2 rounded-md bg-blue-500 text-white font-medium text-base hover:bg-blue-600 transition">
+                    <a href="/register"
+                       class="inline-flex items-center px-4 py-2 rounded-md
+                              bg-orange-500 text-white font-medium text-base
+                              hover:bg-orange-600 transition">
                         Register
                     </a>
                     <a href="/login"
-                       class="inline-flex items-center px-4 py-2 rounded-md bg-blue-500 text-white font-medium text-base hover:bg-blue-600 transition">
+                       class="inline-flex items-center px-4 py-2 rounded-md
+                              bg-orange-500 text-white font-medium text-base
+                              hover:bg-orange-600 transition">
                         Log In
                     </a>
                 {% endif %}
             </div>
+
         </div>
     </nav>
+
     {% if get_flashed_messages() %}
-        <div class="bg-blue-50 text-gray-700 text-base px-6 py-3 text-center">
+        <div class="bg-orange-50 text-gray-800 text-base px-6 py-3 text-center
+                    dark:bg-gray-700 dark:text-gray-200">
             {{ get_flashed_messages() | join(" ") }}
         </div>
     {% endif %}
-    <main class="flex-1 max-w-7xl mx-auto px-6 py-8 bg-white">
+
+    <main class="flex-1 max-w-7xl mx-auto px-6 py-8 bg-white
+                 dark:bg-gray-900">
         {% block main %}{% endblock %}
     </main>
-    <footer class="bg-gray-100 text-center text-base text-gray-500 py-6 border-t-5 border-gray-200">
+
+    <footer class="bg-gray-100 text-center text-base text-gray-500 py-6 border-t-5 border-gray-200
+                   dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700">
         <div>extrinout 26.1</div>
     </footer>
+
 </body>
 </html>

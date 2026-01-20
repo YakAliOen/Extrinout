@@ -6,37 +6,50 @@
 
 {% block main %}
     <div class="max-w-6xl mx-auto px-4 py-8">
-        <h1 class="text-2xl font-bold text-gray-800 mb-8 text-center">
+        <h1 class="text-2xl font-bold text-gray-800 mb-8 text-center
+                   dark:text-gray-200">
             Delete Entries
         </h1>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
             <!-- income card -->
-            <div class="bg-white rounded-2xl shadow-lg p-6">
-                <h3 class="text-xl font-semibold text-green-600 mb-4">
+            <div class="bg-white rounded-2xl shadow-lg p-6
+                        dark:bg-gray-800 dark:shadow-none">
+                <h3 class="text-xl font-semibold text-green-600 dark:text-green-400 mb-4">
                     Income
                 </h3>
 
                 <form method="post">
                     <ul class="space-y-3 w-full">
                         {% for i in incomes %}
-                            <li class="w-full flex justify-between items-center gap-8 p-4 rounded-xl border border-gray-300 hover:bg-green-50 transition">
+                            <li class="w-full flex justify-between items-center gap-8 p-4 rounded-xl
+                                       border border-gray-300 hover:bg-green-50 transition
+                                       dark:border-gray-700 dark:hover:bg-green-900/30">
+
                                 <!-- left side -->
                                 <div>
-                                    <p class="font-semibold text-gray-800">
+                                    <p class="font-semibold text-gray-800 dark:text-gray-200">
                                         {{ i.category }}
                                     </p>
-                                    <p class="text-sm text-gray-500">
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">
                                         {{ i.date }}
                                     </p>
                                 </div>
 
                                 <!-- right side -->
                                 <div class="text-right">
-                                    <p class="font-medium text-gray-700">
+                                    <p class="font-medium text-gray-700 dark:text-gray-300">
                                         IDR {{ "{:,.2f}".format(i.amount) }}
                                     </p>
-                                    <button name="entry_id" value="{{ i.id }}" class="mt-2 inline-flex items-center px-3 py-1.5 text-sm font-medium text-red-600 border border-red-600 rounded-lg hover:bg-red-600 hover:text-white transition">
+                                    <button
+                                        name="entry_id"
+                                        value="{{ i.id }}"
+                                        class="mt-2 inline-flex items-center px-3 py-1.5 text-sm font-medium
+                                               text-red-600 border border-red-600 rounded-lg
+                                               hover:bg-red-600 hover:text-white transition
+                                               dark:text-red-400 dark:border-red-400
+                                               dark:hover:bg-red-500 dark:hover:text-white">
                                         Delete
                                     </button>
                                 </div>
@@ -47,31 +60,42 @@
             </div>
 
             <!-- expense card -->
-            <div class="bg-white rounded-2xl shadow-lg p-6">
-                <h3 class="text-xl font-semibold text-red-600 mb-4">
+            <div class="bg-white rounded-2xl shadow-lg p-6
+                        dark:bg-gray-800 dark:shadow-none">
+                <h3 class="text-xl font-semibold text-red-600 dark:text-red-400 mb-4">
                     Expenses
                 </h3>
 
                 <form method="post">
                     <ul class="space-y-3 w-full">
                         {% for e in expenses %}
-                            <li class="w-full flex justify-between items-center p-4 rounded-xl border border-gray-300 hover:bg-red-50 transition"> <!-- no need for gap-8 because flex containers deal it with justify-between -->
+                            <li class="w-full flex justify-between items-center p-4 rounded-xl
+                                       border border-gray-300 hover:bg-red-50 transition
+                                       dark:border-gray-700 dark:hover:bg-red-900/30">
+
                                 <!-- left side -->
                                 <div>
-                                    <p class="font-semibold text-gray-800">
+                                    <p class="font-semibold text-gray-800 dark:text-gray-200">
                                         {{ e.category }}
                                     </p>
-                                    <p class="text-sm text-gray-500">
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">
                                         {{ e.date }}
                                     </p>
                                 </div>
 
                                 <!-- right side -->
                                 <div class="text-right">
-                                    <p class="font-medium text-gray-700">
+                                    <p class="font-medium text-gray-700 dark:text-gray-300">
                                         IDR {{ "{:,.2f}".format(e.amount) }}
                                     </p>
-                                    <button name="entry_id" value="{{ e.id }}" class="mt-2 inline-flex items-center px-3 py-1.5 text-sm font-medium text-red-600 border border-red-600 rounded-lg hover:bg-red-600 hover:text-white transition">
+                                    <button
+                                        name="entry_id"
+                                        value="{{ e.id }}"
+                                        class="mt-2 inline-flex items-center px-3 py-1.5 text-sm font-medium
+                                               text-red-600 border border-red-600 rounded-lg
+                                               hover:bg-red-600 hover:text-white transition
+                                               dark:text-red-400 dark:border-red-400
+                                               dark:hover:bg-red-500 dark:hover:text-white">
                                         Delete
                                     </button>
                                 </div>
@@ -80,6 +104,7 @@
                     </ul>
                 </form>
             </div>
+
         </div>
     </div>
 {% endblock %}

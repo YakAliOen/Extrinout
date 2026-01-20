@@ -8,26 +8,33 @@
     <div class="space-y-10">
 
         <!-- overview -->
-        <div class="bg-white rounded-2xl shadow p-6">
-            <h1 class="text-2xl font-semibold mb-6">Financial Overview</h1>
+        <div class="bg-white rounded-2xl shadow p-6
+                    dark:bg-gray-800 dark:shadow-none">
+            <h1 class="text-2xl font-semibold mb-6
+                       dark:text-gray-200">
+                Financial Overview
+            </h1>
 
             <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
                 <!-- left side -->
                 <div>
-                    <p class="text-sm text-gray-500">Current Balance</p>
-                    <p class="text-3xl font-bold text-gray-800">
+                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                        Current Balance
+                    </p>
+                    <p class="text-3xl font-bold text-gray-800 dark:text-gray-100">
                         IDR {{ "{:,.2f}".format(balance) }}
                     </p>
                 </div>
+
                 <!-- right side -->
                 <div class="flex gap-6 text-sm">
-                    <div class="text-green-600">
+                    <div class="text-green-600 dark:text-green-400">
                         <p class="font-medium">Income</p>
                         <p class="font-semibold">
                             IDR {{ "{:,.2f}".format(income) }}
                         </p>
                     </div>
-                    <div class="text-red-600">
+                    <div class="text-red-600 dark:text-red-400">
                         <p class="font-medium">Expenses</p>
                         <p class="font-semibold">
                             IDR {{ "{:,.2f}".format(expense) }}
@@ -36,12 +43,18 @@
                 </div>
             </div>
         </div>
+
         <!-- breakdown -->
         <div>
-            <h3 class="text-lg font-semibold mb-3">Breakdown</h3>
-            <div class="overflow-x-auto bg-white rounded-2xl shadow">
+            <h3 class="text-lg font-semibold mb-3 dark:text-gray-200">
+                Breakdown
+            </h3>
+
+            <div class="overflow-x-auto bg-white rounded-2xl shadow
+                        dark:bg-gray-800 dark:shadow-none">
                 <table class="w-full text-sm">
-                    <thead class="bg-gray-100 text-gray-700">
+                    <thead class="bg-gray-100 text-gray-700
+                                  dark:bg-gray-700 dark:text-gray-300">
                         <tr>
                             <th class="px-4 py-3 text-left">Category</th>
                             <th class="px-4 py-3 text-right">Income</th>
@@ -50,22 +63,23 @@
                             <th class="px-4 py-3 text-left">Last Updated</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y">
+
+                    <tbody class="divide-y dark:divide-gray-700">
                         {% for item in nominal_breakdown %}
-                            <tr class="hover:bg-gray-50/50">
-                                <td class="px-4 py-3 font-medium">
+                            <tr class="hover:bg-gray-50/50 dark:hover:bg-gray-700/40">
+                                <td class="px-4 py-3 font-medium dark:text-gray-200">
                                     {{ item.category }}
                                 </td>
-                                <td class="px-4 py-3 text-right text-green-600">
+                                <td class="px-4 py-3 text-right text-green-600 dark:text-green-400">
                                     IDR {{ "{:,.2f}".format(item.income_total) }}
                                 </td>
-                                <td class="px-4 py-3 text-right text-red-600">
+                                <td class="px-4 py-3 text-right text-red-600 dark:text-red-400">
                                     IDR {{ "{:,.2f}".format(item.expense_total) }}
                                 </td>
-                                <td class="px-4 py-3 text-right font-semibold">
+                                <td class="px-4 py-3 text-right font-semibold dark:text-gray-200">
                                     IDR {{ "{:,.2f}".format(item.net_total) }}
                                 </td>
-                                <td class="px-4 py-3 text-gray-500">
+                                <td class="px-4 py-3 text-gray-500 dark:text-gray-400">
                                     {{ item.last_date }}
                                 </td>
                             </tr>
@@ -74,28 +88,35 @@
                 </table>
             </div>
         </div>
+
         <!-- income -->
         <div>
-            <h3 class="text-lg font-semibold text-green-600 mb-3">Income</h3>
-            <div class="overflow-x-auto bg-white rounded-2xl shadow">
+            <h3 class="text-lg font-semibold text-green-600 dark:text-green-400 mb-3">
+                Income
+            </h3>
+
+            <div class="overflow-x-auto bg-white rounded-2xl shadow
+                        dark:bg-gray-800 dark:shadow-none">
                 <table class="w-full text-sm">
-                    <thead class="bg-green-100 text-green-700">
+                    <thead class="bg-green-100 text-green-700
+                                  dark:bg-green-900/40 dark:text-green-300">
                         <tr>
                             <th class="px-4 py-3 text-left">Category</th>
                             <th class="px-4 py-3 text-right">Total Received</th>
                             <th class="px-4 py-3 text-left">Last Updated</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y">
+
+                    <tbody class="divide-y dark:divide-gray-700">
                         {% for income in income_breakdown %}
-                            <tr class="hover:bg-green-50/40">
-                                <td class="px-4 py-3 font-medium">
+                            <tr class="hover:bg-green-50/40 dark:hover:bg-green-900/30">
+                                <td class="px-4 py-3 font-medium dark:text-gray-200">
                                     {{ income.category }}
                                 </td>
-                                <td class="px-4 py-3 text-right">
+                                <td class="px-4 py-3 text-right dark:text-gray-200">
                                     IDR {{ "{:,.2f}".format(income.total_amount) }}
                                 </td>
-                                <td class="px-4 py-3 text-gray-500">
+                                <td class="px-4 py-3 text-gray-500 dark:text-gray-400">
                                     {{ income.last_date }}
                                 </td>
                             </tr>
@@ -104,28 +125,35 @@
                 </table>
             </div>
         </div>
+
         <!-- expenses -->
         <div>
-            <h3 class="text-lg font-semibold text-red-600 mb-3">Expenses</h3>
-            <div class="overflow-x-auto bg-white rounded-2xl shadow">
+            <h3 class="text-lg font-semibold text-red-600 dark:text-red-400 mb-3">
+                Expenses
+            </h3>
+
+            <div class="overflow-x-auto bg-white rounded-2xl shadow
+                        dark:bg-gray-800 dark:shadow-none">
                 <table class="w-full text-sm">
-                    <thead class="bg-red-100 text-red-700">
+                    <thead class="bg-red-100 text-red-700
+                                  dark:bg-red-900/40 dark:text-red-300">
                         <tr>
                             <th class="px-4 py-3 text-left">Category</th>
                             <th class="px-4 py-3 text-right">Total Spent</th>
                             <th class="px-4 py-3 text-left">Last Updated</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y">
+
+                    <tbody class="divide-y dark:divide-gray-700">
                         {% for expense in expense_breakdown %}
-                            <tr class="hover:bg-red-50/40">
-                                <td class="px-4 py-3 font-medium">
+                            <tr class="hover:bg-red-50/40 dark:hover:bg-red-900/30">
+                                <td class="px-4 py-3 font-medium dark:text-gray-200">
                                     {{ expense.category }}
                                 </td>
-                                <td class="px-4 py-3 text-right">
+                                <td class="px-4 py-3 text-right dark:text-gray-200">
                                     IDR {{ "{:,.2f}".format(expense.total_amount) }}
                                 </td>
-                                <td class="px-4 py-3 text-gray-500">
+                                <td class="px-4 py-3 text-gray-500 dark:text-gray-400">
                                     {{ expense.last_date }}
                                 </td>
                             </tr>
@@ -134,5 +162,6 @@
                 </table>
             </div>
         </div>
+
     </div>
 {% endblock %}

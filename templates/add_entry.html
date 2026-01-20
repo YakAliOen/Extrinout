@@ -5,18 +5,36 @@
 {% endblock %}
 
 {% block main %}
-    <div>
-        <form action="/add_entry" method="post" id="add-entry-form" class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 space-y-6">
-            <h1 class="text-2xl font-bold text-gray-800 mb-8 text-center">
+    <div class="flex justify-center">
+        <form action="/add_entry" method="post" id="add-entry-form"
+              class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 space-y-6
+                     dark:bg-gray-800 dark:shadow-none">
+
+            <h1 class="text-2xl font-bold text-gray-800 mb-8 text-center
+                       dark:text-gray-200">
                 Add Entry
             </h1>
 
             <!-- value of the entry -->
-            <input autocomplete="off" name="amount" placeholder="Amount (IDR)" type="number" step="1000" class="w-full rounded-lg border border-gray-300 px-4 py-2 bg-white appearance-none">
+            <input
+                autocomplete="off"
+                name="amount"
+                placeholder="Amount (IDR)"
+                type="number"
+                step="1000"
+                class="w-full rounded-lg border border-gray-300 px-4 py-2
+                       bg-white text-gray-800 appearance-none
+                       dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400"
+            >
 
             <!-- select category or add new category -->
             <div>
-                <select id="category_select" class="w-full rounded-lg border border-gray-300 px-4 py-2 bg-white appearance-none" aria-label="Category select">
+                <select
+                    id="category_select"
+                    class="w-full rounded-lg border border-gray-300 px-4 py-2
+                           bg-white appearance-none
+                           dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+                    aria-label="Category select">
                     <option value="" disabled selected>Select category</option>
                     <option value="__new__">-- New category --</option>
 
@@ -25,34 +43,57 @@
                     {% endfor %}
                 </select>
 
-                <input type="text" id="new_category_input" placeholder="Enter new category" class="mt-3 w-full rounded-lg border border-gray-300 px-4 py-2 bg-white" style="display: none;">
+                <input
+                    type="text"
+                    id="new_category_input"
+                    placeholder="Enter new category"
+                    class="mt-3 w-full rounded-lg border border-gray-300 px-4 py-2
+                           bg-white text-gray-800
+                           dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400"
+                    style="display: none;"
+                >
 
                 <!-- placeholder for later -->
                 <input type="hidden" name="category" id="category_hidden">
             </div>
 
             <!-- date of the entry -->
-            <input autocomplete="off" name="date" type="date" class="w-full rounded-lg border border-gray-300 px-4 py-2 bg-white">
+            <input
+                autocomplete="off"
+                name="date"
+                type="date"
+                class="w-full rounded-lg border border-gray-300 px-4 py-2
+                       bg-white text-gray-800
+                       dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+            >
 
             <!-- type of the entry (expense/income) -->
-            <select name="type" class="w-full rounded-lg border border-gray-300 px-4 py-2 bg-white appearance-none">
+            <select
+                name="type"
+                class="w-full rounded-lg border border-gray-300 px-4 py-2
+                       bg-white appearance-none
+                       dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200">
                 <option value="" disabled selected>Select type</option>
                 <option value="expense">Expense</option>
                 <option value="income">Income</option>
             </select>
 
-            <button type="submit" class="w-full bg-blue-400 text-white py-2.5 rounded-lg font-medium hover:bg-blue-500 transition">
+            <button
+                type="submit"
+                class="w-full bg-orange-500 text-white py-2.5 rounded-lg font-medium
+                       hover:bg-orange-600 transition">
                 Add Entry
             </button>
+
         </form>
     </div>
 
     <!-- script to handle category selection and new category input -->
     <script>
         (function () {
-            const select = document.getElementById("category_select");      //value="" or "__new__" or existing category
+            const select = document.getElementById("category_select");
             const newInput = document.getElementById("new_category_input");
-            const hidden = document.getElementById("category_hidden");      //the placeholder earlier
+            const hidden = document.getElementById("category_hidden");
             const form = document.getElementById("add-entry-form");
 
             function updateHidden() {
@@ -60,7 +101,6 @@
                     return;
                 }
 
-                // show/hide new category input based on selection
                 if (select.value === "__new__") {
                     newInput.style.display = "block";
                     hidden.value = newInput.value || "";
